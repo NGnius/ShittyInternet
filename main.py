@@ -17,10 +17,10 @@ access_token_secret=credentials['access_token_secret']
 
 def outageLogging():
     '''() -> Logger class
-    set ups main log so that it outputs to ./main.log and then returns the log'''
+    set ups main log so that it outputs to outages.log and then returns the log'''
     logger = logging.getLogger('outages')
     logger.setLevel(logging.INFO)
-    handler = logging.FileHandler(filename='outages.log', encoding='utf-8', mode='w')
+    handler = logging.FileHandler(filename='outages.log', encoding='utf-8', mode='a')
     handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
     logger.addHandler(handler)
     return logger
