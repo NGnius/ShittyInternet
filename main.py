@@ -3,7 +3,7 @@ import requests
 import twitter, configparser, datetime
 
 TIMEOUT=1
-PERIOD=2 # period between pings, in seconds
+PERIOD=600 # period between pings, in seconds
 TEST_URL="https://google.com"
 
 # load twitter credentials
