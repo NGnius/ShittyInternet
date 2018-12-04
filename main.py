@@ -1,9 +1,9 @@
 import logging, time, traceback
 import requests
-import twitter, configparser
+import twitter, configparser, datetime
 
 TIMEOUT=1
-PERIOD=600 # period between pings, in seconds
+PERIOD=2 # period between pings, in seconds
 TEST_URL="https://google.com"
 
 # load twitter credentials
@@ -31,11 +31,15 @@ was_offline = False
 offline_beginning = None
 
 def offline_start():
+    global was_offline, offline_beginning
     if not was_offline:
         offline_beginning=datetime.datetime.now()
         was_offline=True
+        # print('Offline mode started')
 
 def offline_end():
+    global was_offline, offline_beginning
+    # print('Ending offline mode')
     offline_duration=datetime.datetime.now()-offline_beginning
     duration_str = str(offline_duration).split('.')[0]
     # tweet about it
@@ -52,7 +56,7 @@ def offline_end():
         was_offline=False
     except:
         print('Failed to tweet about internet %s outage starting at %s' %(duration_str, offline_beginning.isoformat()) )
-        traceback.print_exc()
+        # traceback.print_exc()
 
 while True:
     start_time = time.perf_counter()
@@ -71,5 +75,5 @@ while True:
         log.warning('Internet failed to be reached')
         offline_start()
         # traceback.print_exc()
-
-    time.sleep(PERIOD - (time.perf_counter()-start_time))
+    sleep_time=PERIOD - (time.perf_counter()-start_time)
+    time.sleep(sleep_time if sleep_time>=0 else 0)
